@@ -2,6 +2,10 @@ local RunService = game:GetService("RunService")
 local input = game:GetService("UserInputService")
 local mouse = game:GetService("Players").LocalPlayer:GetMouse()
 local inset = game:GetService("GuiService"):GetGuiInset()
+local CoreGui = game:GetService("CoreGui")
+
+-- Destroy existing UI if it exists
+if CoreGui:FindFirstChild("PlanBUI") then CoreGui.PlanBUI:Destroy() end
 
 local function EmptyFunction() end
 
@@ -83,7 +87,6 @@ local theme = getgenv().theme or {
     TextColor = Color3.fromRGB(255,255,255),
     SubTextColor = Color3.fromRGB(200,200,200),
 
-
     ButtonTop = Color3.fromRGB(50, 50, 64), --Top color layer of the button.
     ButtonBottom = Color3.fromRGB(58, 58, 85), --Under layer of the button -> reveals as tranparency lowers
 }
@@ -94,7 +97,11 @@ do
         local position = position or UDim2.new(0.2, 0, 0.2, 0)
         local size = size or UDim2.new(0, 720, 0, 420)
 
-        local ScreenGui,MasterContainer = util.new("ScreenGui", { Parent = game:GetService("CoreGui"), Name=id }, {
+        local ScreenGui,MasterContainer = util.new("ScreenGui", { 
+            Parent = CoreGui, 
+            Name = id or "PlanBUI",
+            ZIndexBehavior = Enum.ZIndexBehavior.Global
+        }, {
             util.new("Frame", { --MasterContainer
                 Size = size,
                 Position = position,
@@ -263,7 +270,6 @@ do
 
     function library:AddTab(title, desc)
         local newTab = tab.new(self, title, desc, #self.tabs+1)
-
 
         table.insert(self.tabs, newTab)
         if #self.tabs == 1 then newTab:select() end
@@ -886,6 +892,28 @@ do
                 self.expandedColor = false
                 ColorpickerWindowContainer.Visible = self.expandedColor
             end)
+
+            colorpickerReturn = {
+                setColor = setColor,
+                getColor = function() return ColorpickerboxInside.BackgroundColor3 end,
+                callback = callback
+            }
+        end
+
+        --//Returns
+        local function setToggled(toggled, noCallback)
+            self.checked = toggled
+            render(noCallback)
+        end
+
+        panel.seperators[panel.currentSeperator][text] = setToggled
+
+        return {
+            colorpicker = colorpickerReturn,
+            setToggled = setToggled,
+            toggle = function()
+                self.checked = not self.checked
+            end
 
             colorpickerReturn = {
                 setColor = setColor,
@@ -1544,7 +1572,6 @@ do
         })
         
         
-
         --//Basic connectionss
         TextInput:GetPropertyChangedSignal("Text"):Connect(function()
             local text = TextInput.Text
@@ -1644,5 +1671,3 @@ do
 end
 
 return library
-
-return ESP
