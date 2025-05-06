@@ -7,7 +7,7 @@ local CoreGui = game:GetService("CoreGui")
 -- Destroy existing UI if it exists
 if CoreGui:FindFirstChild("PlanBUI") then CoreGui.PlanBUI:Destroy() end
 
-local function EmptyFunction() end
+local function EmptyFunction() end  -- ⚠️ UNDEFINED FUNCTION `EmptyFunction`?
 
 --//Utils
 local util = {} do
@@ -111,7 +111,7 @@ do
             })
         })
 
-        --//Remove & Disconnect pre-existing UI's under same ID
+        --//Remove & Disconnect pre-existing UI's under same ID  -- ⚠️ POSSIBLE UNTERMINATED STRING
         local preexisting = getgenv()[id]
         if preexisting then
             for i,v in pairs(preexisting.connections) do
@@ -281,7 +281,7 @@ do
         if not isfolder(folder) then makefolder(folder) end
 
         local updateList
-        local function loadConfig(config)
+        local function loadConfig(config)  -- ⚠️ UNDEFINED FUNCTION `loadConfig`?
             for _,tabTable in pairs(self.tabs) do
                 local tab = tabTable.title
                 for panelNum,panelTable in pairs(tabTable.panels) do
@@ -322,7 +322,7 @@ do
                     callback = function()
                         self.values.Configs = nil
                         writefile(folder.."/"..configName.."."..fileExtension, game:GetService("HttpService"):JSONEncode(self.values))
-                        updateList()
+                        updateList()  -- ⚠️ UNDEFINED FUNCTION `updateList`?
                     end
                 })
             end
@@ -332,7 +332,7 @@ do
                 PanelTwo:AddButton({
                     title = "Refresh",
                     desc = "Button to refresh the config list from: workspace/"..folder,
-                    callback = function() updateList() end
+                    callback = function() updateList() end  -- ⚠️ UNDEFINED FUNCTION `updateList`?
                 })
 
                 --//Config UI element. Deliberately goes off screen
@@ -393,7 +393,7 @@ do
 
                             --//Connections
                             config.MouseButton1Click:Connect(function()
-                                loadConfig(game:GetService("HttpService"):JSONDecode(readfile(folder.."/"..file)))
+                                loadConfig(game:GetService("HttpService"):JSONDecode(readfile(folder.."/"..file)))  -- ⚠️ UNDEFINED FUNCTION `loadConfig`?
                             end)
                             config.MouseEnter:Connect(function()
                                 util.tween(config, { BackgroundColor3 = theme.Accent }, 0.1)
@@ -404,7 +404,7 @@ do
                         end
                     end
                 end
-                updateList()
+                updateList()  -- ⚠️ UNDEFINED FUNCTION `updateList`?
 
 
                 --//Connections
@@ -830,7 +830,7 @@ do
                 local x = math.clamp((input:GetMouseLocation().X - HueBar.AbsolutePosition.X) / HueBar.AbsoluteSize.X, 0,1)
                 hueFromPercent(x)
             end
-            local function satValFromMouse()
+            local function satValFromMouse()  -- ⚠️ UNDEFINED FUNCTION `satValFromMouse`?
                 local mouse = input:GetMouseLocation()
                 local x = 1-math.clamp((mouse.X           - SatValWindow.AbsolutePosition.X) / SatValWindow.AbsoluteSize.X, 0,1)
                 local y = 1-math.clamp((mouse.Y - inset.Y - SatValWindow.AbsolutePosition.Y) / SatValWindow.AbsoluteSize.Y, 0,1)
@@ -874,7 +874,7 @@ do
                 if isUsingHueBar then
                     hueFromMouse()
                 elseif isUsingSatValWindow then
-                    satValFromMouse()
+                    satValFromMouse()  -- ⚠️ UNDEFINED FUNCTION `satValFromMouse`?
                 end
             end)
 
@@ -901,7 +901,7 @@ do
         end
 
         --//Returns
-        local function setToggled(toggled, noCallback)
+        local function setToggled(toggled, noCallback)  -- ⚠️ UNDEFINED FUNCTION `setToggled`?
             self.checked = toggled
             render(noCallback)
         end
@@ -923,7 +923,7 @@ do
         end
 
         --//Returns
-        local function setToggled(toggled, noCallback)
+        local function setToggled(toggled, noCallback)  -- ⚠️ UNDEFINED FUNCTION `setToggled`?
             self.checked = toggled
             render(noCallback)
         end
@@ -951,7 +951,7 @@ do
         local value = panel:_GlobalTable()
         value[text] = self.values.default or 50
 
-        local function round(x) --Number of 0's after 1 in data.values.round defines number of decimal places. 1 = x, 10 = x.x, 100 = x.xx
+        local function round(x) --Number of 0's after 1 in data.values.round defines number of decimal places. 1 = x, 10 = x.x, 100 = x.xx  -- ⚠️ POSSIBLE UNTERMINATED STRING
             return math.floor((x*(self.values.round or 1))+0.5)/(self.values.round or 1)
         end
         local Container = panel:_Container(26, true)
@@ -1038,7 +1038,7 @@ do
                 callback(actualValue)
             end
         end
-        local function renderFromValue(value, override)
+        local function renderFromValue(value, override)  -- ⚠️ UNDEFINED FUNCTION `renderFromValue`?
             local min = self.values.min or 0
             local max = self.values.max or 0
             local diff = max-min
@@ -1052,7 +1052,7 @@ do
 
             renderFromPercent(clickedPercentage)
         end
-        renderFromValue(self.values.default or 0, true)
+        renderFromValue(self.values.default or 0, true)  -- ⚠️ UNDEFINED FUNCTION `renderFromValue`?
         
         --//Connections
         --Slider interact
@@ -1080,7 +1080,7 @@ do
         end)
         ValueboxInside.FocusLost:Connect(function()
             if tonumber(ValueboxInside.Text) then
-                renderFromValue(tonumber(ValueboxInside.Text))
+                renderFromValue(tonumber(ValueboxInside.Text))  -- ⚠️ UNDEFINED FUNCTION `renderFromValue`?
             end
             isFocused = false
             util.tween(ValueboxOutline, { BackgroundColor3 = theme.InteractableOutline }, 0.1)
@@ -1260,7 +1260,7 @@ do
             end
         end
         renderOptions()
-        data.default = 0 --doesn't set to default again
+        data.default = 0 --doesn't set to default again  -- ⚠️ POSSIBLE UNTERMINATED STRING
 
         --//Basic connectionss
         Container.MouseButton1Down:Connect(function()
